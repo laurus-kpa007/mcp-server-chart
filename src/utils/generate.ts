@@ -1,12 +1,17 @@
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import axios from "axios";
-import { getServiceIdentifier, getVisRequestServer } from "./env";
+import {
+  getServiceIdentifier,
+  getVisRequestServer,
+  useLocalRenderer,
+} from "./env";
+import { generateLocalChart } from "./local-renderer";
 
 /**
  * Generate a chart URL using the provided configuration.
  * @param type The type of chart to generate
  * @param options Chart options
- * @returns {Promise<string>} The generated chart URL.
+ * @returns {Promise<string>} The generated chart URL or local file path.
  * @throws {Error} If the chart generation fails.
  */
 export async function generateChartUrl(
@@ -14,6 +19,12 @@ export async function generateChartUrl(
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   options: Record<string, any>,
 ): Promise<string> {
+  // Check if local rendering is enabled
+  if (useLocalRenderer()) {
+    return await generateLocalChart(type, options);
+  }
+
+  // Use external API for chart generation
   const url = getVisRequestServer();
 
   const response = await axios.post(

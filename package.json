@@ -8,9 +8,9 @@
     "./sdk": "./build/sdk.js"
   },
   "scripts": {
-    "prebuild": "rm -rf build/*",
+    "prebuild": "node -e \"const fs=require('fs');const path='build';if(fs.existsSync(path))fs.rmSync(path,{recursive:true,force:true})\"",
     "build": "tsc && tsc-alias -p tsconfig.json",
-    "postbuild": "chmod +x build/index.js",
+    "postbuild": "node -e \"try{require('fs').chmodSync('build/index.js',0o755)}catch(e){}\"",
     "start": "npx @modelcontextprotocol/inspector node build/index.js",
     "prepare": "husky && npm run build",
     "prepublishOnly": "npm run build",
@@ -42,6 +42,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@antv/gpt-vis-ssr": "^0.3.1",
     "@modelcontextprotocol/sdk": "^1.11.4",
     "axios": "^1.11.0",
     "cors": "^2.8.5",

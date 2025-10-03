@@ -55,3 +55,17 @@ export function getNaverMapApiKey(): string | undefined {
 export function getNaverMapApiSecret(): string | undefined {
   return process.env.NAVER_MAP_CLIENT_SECRET;
 }
+
+/**
+ * Get whether to use local renderer from environment variables.
+ */
+export function useLocalRenderer(): boolean {
+  return process.env.USE_LOCAL_RENDERER === "true";
+}
+
+/**
+ * Get the output directory for locally generated charts.
+ */
+export function getOutputDir(): string {
+  return process.env.OUTPUT_DIR || "./output";
+}
