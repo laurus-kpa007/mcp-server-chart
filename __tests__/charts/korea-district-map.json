@@ -1,0 +1,33 @@
+{
+  "title": "대한민국 광역시도 인구 분포",
+  "data": {
+    "name": "대한민국",
+    "showAllSubdistricts": true,
+    "dataLabel": "인구",
+    "dataType": "number",
+    "dataValueUnit": "만명",
+    "colors": ["#1783FF"],
+    "subdistricts": [
+      { "name": "서울특별시", "dataValue": "967" },
+      { "name": "부산광역시", "dataValue": "339" },
+      { "name": "인천광역시", "dataValue": "296" },
+      { "name": "대구광역시", "dataValue": "242" },
+      { "name": "광주광역시", "dataValue": "146" },
+      { "name": "대전광역시", "dataValue": "147" },
+      { "name": "울산광역시", "dataValue": "114" },
+      { "name": "세종특별자치시", "dataValue": "38" },
+      { "name": "경기도", "dataValue": "1356" },
+      { "name": "강원특별자치도", "dataValue": "155" },
+      { "name": "충청북도", "dataValue": "160" },
+      { "name": "충청남도", "dataValue": "212" },
+      { "name": "전북특별자치도", "dataValue": "180" },
+      { "name": "전라남도", "dataValue": "185" },
+      { "name": "경상북도", "dataValue": "264" },
+      { "name": "경상남도", "dataValue": "333" },
+      { "name": "제주특별자치도", "dataValue": "68" }
+    ]
+  },
+  "width": 1200,
+  "height": 1000,
+  "mapProvider": "kakao"
+}
