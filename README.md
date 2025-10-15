@@ -1,5 +1,7 @@
 # MCP Server Chart  ![](https://badge.mcpx.dev?type=server 'MCP Server')  [![build](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml) [![npm Version](https://img.shields.io/npm/v/@antv/mcp-server-chart.svg)](https://www.npmjs.com/package/@antv/mcp-server-chart)
 
+한국어 | **[English](./README.en.md)**
+
 [AntV](https://github.com/antvis/)를 사용한 차트 생성을 위한 Model Context Protocol 서버입니다. 이 MCP 서버를 통해 _차트 생성_ 및 _데이터 분석_을 수행할 수 있습니다.
 
 TypeScript 기반 MCP 서버로, 차트 생성 기능을 제공합니다. MCP 도구를 통해 다양한 유형의 차트를 생성할 수 있습니다.
