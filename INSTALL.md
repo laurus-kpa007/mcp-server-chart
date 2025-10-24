@@ -183,8 +183,7 @@ mcp-server-chart --transport sse --port 8080 --endpoint /api/sse
       "command": "npx",
       "args": ["-y", "@antv/mcp-server-chart"],
       "env": {
-        "VIS_REQUEST_SERVER": "https://your-server.com/api/chart",
-        "SERVICE_ID": "your-service-id",
+        "OUTPUT_DIR": "./charts",
         "DISABLED_TOOLS": "generate_fishbone_diagram,generate_mind_map"
       }
     }
@@ -196,17 +195,30 @@ mcp-server-chart --transport sse --port 8080 --endpoint /api/sse
 
 | 변수 | 설명 | 기본값 | 예시 |
 |------|------|--------|------|
-| `USE_LOCAL_RENDERER` | 로컬 렌더링 사용 여부 | `false` | `true` |
+| `USE_LOCAL_RENDERER` | 로컬 렌더링 사용 여부 | `true` (기본적으로 로컬 렌더링 사용) | `false` (외부 서버 사용 시) |
 | `OUTPUT_DIR` | 로컬 생성된 차트 이미지 저장 경로 | `./output` | `./charts` 또는 `D:/charts` |
-| `VIS_REQUEST_SERVER` | 프라이빗 차트 생성 서비스 URL | `https://antv-studio.alipay.com/api/gpt-vis` | `https://your-server.com/api/chart` |
+| `VIS_REQUEST_SERVER` | 프라이빗 차트 생성 서비스 URL (USE_LOCAL_RENDERER=false 시 필수) | - | `https://your-server.com/api/chart` |
 | `SERVICE_ID` | 차트 생성 기록용 서비스 식별자 | - | `your-service-id-123` |
 | `DISABLED_TOOLS` | 비활성화할 도구 목록 (쉼표로 구분) | - | `generate_fishbone_diagram,generate_mind_map` |
 
-### 🖼️ 로컬 렌더링 사용
+### 🖼️ 로컬 렌더링 (기본 모드)
 
-차트를 외부 API 대신 로컬에서 생성하고 이미지 파일로 저장하려면:
+**기본적으로 로컬 렌더링이 활성화되어 있습니다.** 별도 설정 없이 사용 가능합니다.
 
-**Claude Desktop 설정 (Windows):**
+**Claude Desktop 기본 설정 (Windows):**
+
+```json
+{
+  "mcpServers": {
+    "mcp-server-chart": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@antv/mcp-server-chart"]
+    }
+  }
+}
+```
+
+**출력 디렉토리 변경 (선택사항):**
 
 ```json
 {
@@ -215,7 +227,6 @@ mcp-server-chart --transport sse --port 8080 --endpoint /api/sse
       "command": "cmd",
       "args": ["/c", "npx", "-y", "@antv/mcp-server-chart"],
       "env": {
-        "USE_LOCAL_RENDERER": "true",
         "OUTPUT_DIR": "D:/charts"
       }
     }
@@ -226,22 +237,42 @@ mcp-server-chart --transport sse --port 8080 --endpoint /api/sse
 **로컬 개발 시:**
 
 ```bash
-# 환경 변수 설정 (Windows PowerShell)
-$env:USE_LOCAL_RENDERER="true"
+# 기본 실행 (로컬 렌더링 자동 활성화)
+npm run start
+
+# 출력 디렉토리 변경 (Windows PowerShell)
 $env:OUTPUT_DIR="D:/charts"
 npm run start
 
-# 환경 변수 설정 (Windows CMD)
-set USE_LOCAL_RENDERER=true
+# 출력 디렉토리 변경 (Windows CMD)
 set OUTPUT_DIR=D:/charts
 npm run start
 ```
 
 **동작 방식:**
-- `USE_LOCAL_RENDERER=true`: 차트가 외부 API가 아닌 로컬에서 생성됩니다
-- `OUTPUT_DIR`: 생성된 PNG 이미지가 저장될 디렉토리 경로
-- 반환값: 외부 URL 대신 로컬 파일의 절대 경로 (예: `D:\charts\line-1234567890.png`)
+- 차트가 로컬에서 생성되며 외부 서버로 데이터가 전송되지 않습니다
+- `OUTPUT_DIR`: 생성된 PNG 이미지가 저장될 디렉토리 경로 (기본값: `./output`)
+- 반환값: 로컬 파일의 절대 경로 (예: `D:\charts\line-1234567890.png`)
 - 자동으로 출력 디렉토리가 생성됩니다
+
+**외부 서버 사용 (비권장):**
+
+외부 차트 생성 서비스를 사용하려면:
+
+```json
+{
+  "mcpServers": {
+    "mcp-server-chart": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@antv/mcp-server-chart"],
+      "env": {
+        "USE_LOCAL_RENDERER": "false",
+        "VIS_REQUEST_SERVER": "https://your-server.com/api/chart"
+      }
+    }
+  }
+}
+```
 
 **주의사항:**
 - 로컬 렌더링은 `@antv/gpt-vis-ssr` 패키지를 사용합니다

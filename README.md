@@ -1,69 +1,90 @@
-# MCP Server Chart  ![](https://badge.mcpx.dev?type=server 'MCP Server')  [![build](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml) [![npm Version](https://img.shields.io/npm/v/@antv/mcp-server-chart.svg)](https://www.npmjs.com/package/@antv/mcp-server-chart) [![smithery badge](https://smithery.ai/badge/@antvis/mcp-server-chart)](https://smithery.ai/server/@antvis/mcp-server-chart) [![npm License](https://img.shields.io/npm/l/@antv/mcp-server-chart.svg)](https://www.npmjs.com/package/@antv/mcp-server-chart) [![Trust Score](https://archestra.ai/mcp-catalog/api/badge/quality/antvis/mcp-server-chart)](https://archestra.ai/mcp-catalog/antvis__mcp-server-chart)
+# MCP Server Chart  ![](https://badge.mcpx.dev?type=server 'MCP Server')  [![build](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml) [![npm Version](https://img.shields.io/npm/v/@antv/mcp-server-chart.svg)](https://www.npmjs.com/package/@antv/mcp-server-chart)
 
-**[한국어](./README.ko.md)** | English
+> [English](./README.en.md) | 한국어
 
-A Model Context Protocol server for generating charts using [AntV](https://github.com/antvis/). We can use this mcp server for _chart generation_ and _data analysis_.
+[AntV](https://github.com/antvis/)를 사용한 차트 생성을 위한 Model Context Protocol 서버입니다. 이 MCP 서버를 통해 _차트 생성_ 및 _데이터 분석_을 수행할 수 있습니다.
 
-<a href="https://www.star-history.com/#antvis/mcp-server-chart&Date">
-  <img width="512" src="https://api.star-history.com/svg?repos=antvis/mcp-server-chart&type=Date" />
-</a>
+TypeScript 기반 MCP 서버로, 차트 생성 기능을 제공합니다. MCP 도구를 통해 다양한 유형의 차트를 생성할 수 있습니다.
 
-This is a TypeScript-based MCP server that provides chart generation capabilities. It allows you to create various types of charts through MCP tools. You can also use it in [Dify](https://marketplace.dify.ai/plugins/antv/visualization).
+## 📋 목차
 
-## 📋 Table of Contents
+- [✨ 기능](#-기능)
+- [🤖 사용법](#-사용법)
+- [🚰 SSE 또는 Streamable 전송으로 실행](#-sse-또는-streamable-전송으로-실행)
+- [🎮 CLI 옵션](#-cli-옵션)
+- [⚙️ 환경 변수](#️-환경-변수)
+  - [VIS_REQUEST_SERVER](#-프라이빗-배포)
+  - [SERVICE_ID](#️-생성-기록)
+  - [DISABLED_TOOLS](#️-도구-필터링)
+  - [한국 지도 API 키](#-한국-지도-api-설정)
+- [📠 프라이빗 배포](#-프라이빗-배포)
+- [🗺️ 생성 기록](#️-생성-기록)
+- [🎛️ 도구 필터링](#️-도구-필터링)
+- [🇰🇷 한국 지도 지원](#-한국-지도-지원)
+- [🔨 개발](#-개발)
+- [📄 라이선스](#-라이선스)
 
-- [✨ Features](#-features)
-- [🤖 Usage](#-usage)
-- [🚰 Run with SSE or Streamable transport](#-run-with-sse-or-streamable-transport)
-- [🎮 CLI Options](#-cli-options)
-- [⚙️ Environment Variables](#%EF%B8%8F-environment-variables)
-  - [VIS_REQUEST_SERVER](#-private-deployment)
-  - [SERVICE_ID](#%EF%B8%8F-generate-records)
-  - [DISABLED_TOOLS](#%EF%B8%8F-tool-filtering)
-- [📠 Private Deployment](#-private-deployment)
-- [🗺️ Generate Records](#%EF%B8%8F-generate-records)
-- [🎛️ Tool Filtering](#%EF%B8%8F-tool-filtering)
-- [🔨 Development](#-development)
-- [📄 License](#-license)
+## ✨ 기능
 
-## ✨ Features
+현재 28개 이상의 차트를 지원합니다.
 
-Now 25+ charts supported.
+### 기본 차트
 
-<img width="768" alt="mcp-server-chart preview" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IyIRQIQHyKYAAAAAgCAAAAgAemJ7AQ/fmt.avif" />
+1. `generate_area_chart`: **영역 차트** 생성 - 연속적인 독립 변수에 따른 데이터 추세를 표시하고 전체 데이터 흐름을 관찰합니다.
+2. `generate_bar_chart`: **막대 차트** 생성 - 서로 다른 카테고리의 값을 비교하며, 수평 비교에 적합합니다.
+3. `generate_boxplot_chart`: **박스플롯** 생성 - 중앙값, 사분위수, 이상치를 포함한 데이터 분포를 표시합니다.
+4. `generate_column_chart`: **세로 막대 차트** 생성 - 서로 다른 카테고리의 값을 비교하며, 수직 비교에 적합합니다.
+5. `generate_dual_axes_chart`: **이중 축 차트** 생성 - 단위나 범위가 다른 두 변수 간의 관계를 표시합니다.
+6. `generate_funnel_chart`: **깔때기 차트** 생성 - 여러 단계에서의 데이터 손실을 표시합니다.
+7. `generate_histogram_chart`: **히스토그램** 생성 - 데이터를 구간으로 나누고 각 구간의 데이터 개수를 세어 분포를 표시합니다.
+8. `generate_line_chart`: **선 차트** 생성 - 시간 또는 다른 연속 변수에 따른 데이터 추세를 표시합니다.
+9. `generate_liquid_chart`: **리퀴드 차트** 생성 - 데이터 비율을 표시하며, 물이 차오르는 구 형태로 백분율을 시각적으로 나타냅니다.
+10. `generate_pie_chart`: **원형 차트** 생성 - 데이터 비율을 표시하며, 각 부분의 백분율을 보여주는 섹터로 나눕니다.
+11. `generate_radar_chart`: **레이더 차트** 생성 - 다차원 데이터를 종합적으로 표시하며, 여러 차원을 레이더 형식으로 보여줍니다.
+12. `generate_sankey_chart`: **생키 차트** 생성 - 데이터 흐름과 양을 표시하며, 서로 다른 노드 간의 데이터 이동을 생키 스타일로 나타냅니다.
+13. `generate_scatter_chart`: **산점도** 생성 - 두 변수 간의 관계를 표시하며, 좌표계에 분산된 점으로 데이터 포인트를 보여줍니다.
+14. `generate_treemap_chart`: **트리맵** 생성 - 계층적 데이터를 표시하며, 직사각형 크기가 데이터 값을 나타냅니다.
+15. `generate_venn_chart`: **벤 다이어그램** 생성 - 집합 간의 관계를 표시하며, 교집합, 합집합, 차집합을 보여줍니다.
+16. `generate_violin_chart`: **바이올린 플롯** 생성 - 데이터 분포를 표시하며, 박스플롯과 밀도 플롯의 특징을 결합하여 더 상세한 분포를 제공합니다.
+17. `generate_word_cloud_chart`: **워드 클라우드** 생성 - 텍스트 데이터의 단어 빈도를 표시하며, 글꼴 크기가 각 단어의 빈도를 나타냅니다.
 
-1. `generate_area_chart`: Generate an `area` chart, used to display the trend of data under a continuous independent variable, allowing observation of overall data trends.
-1. `generate_bar_chart`: Generate a `bar` chart, used to compare values across different categories, suitable for horizontal comparisons.
-1. `generate_boxplot_chart`: Generate a `boxplot`, used to display the distribution of data, including the median, quartiles, and outliers.
-1. `generate_column_chart`: Generate a `column` chart, used to compare values across different categories, suitable for vertical comparisons.
-1. `generate_district_map` - Generate a `district-map`, used to show administrative divisions and data distribution.
-1. `generate_dual_axes_chart`: Generate a `dual-axes` chart, used to display the relationship between two variables with different units or ranges.
-1. `generate_fishbone_diagram`: Generate a `fishbone` diagram, also known as an Ishikawa diagram, used to identify and display the root causes of a problem.
-1. `generate_flow_diagram`: Generate a `flowchart`, used to display the steps and sequence of a process.
-1. `generate_funnel_chart`: Generate a `funnel` chart, used to display data loss at different stages.
-1. `generate_histogram_chart`: Generate a `histogram`, used to display the distribution of data by dividing it into intervals and counting the number of data points in each interval.
-1. `generate_line_chart`: Generate a `line` chart, used to display the trend of data over time or another continuous variable.
-1. `generate_liquid_chart`: Generate a `liquid` chart, used to display the proportion of data, visually representing percentages in the form of water-filled spheres.
-1. `generate_mind_map`: Generate a `mind-map`, used to display thought processes and hierarchical information.
-1. `generate_network_graph`: Generate a `network` graph, used to display relationships and connections between nodes.
-1. `generate_organization_chart`: Generate an `organizational` chart, used to display the structure of an organization and personnel relationships.
-1. `generate_path_map` - Generate a `path-map`, used to display route planning results for POIs.
-1. `generate_pie_chart`: Generate a `pie` chart, used to display the proportion of data, dividing it into parts represented by sectors showing the percentage of each part.
-1. `generate_pin_map` - Generate a `pin-map`, used to show the distribution of POIs.
-1. `generate_radar_chart`: Generate a `radar` chart, used to display multi-dimensional data comprehensively, showing multiple dimensions in a radar-like format.
-1. `generate_sankey_chart`: Generate a `sankey` chart, used to display data flow and volume, representing the movement of data between different nodes in a Sankey-style format.
-1. `generate_scatter_chart`: Generate a `scatter` plot, used to display the relationship between two variables, showing data points as scattered dots on a coordinate system.
-1. `generate_treemap_chart`: Generate a `treemap`, used to display hierarchical data, showing data in rectangular forms where the size of rectangles represents the value of the data.
-1. `generate_venn_chart`: Generate a `venn` diagram, used to display relationships between sets, including intersections, unions, and differences.
-1. `generate_violin_chart`: Generate a `violin` plot, used to display the distribution of data, combining features of boxplots and density plots to provide a more detailed view of the data distribution.
-1. `generate_word_cloud_chart`: Generate a `word-cloud`, used to display the frequency of words in textual data, with font sizes indicating the frequency of each word.
+### 다이어그램 및 그래프
 
-> [!NOTE]
-> The above geographic visualization chart generation tool uses [AMap service](https://lbs.amap.com/) and currently only supports map generation within China.
+18. `generate_fishbone_diagram`: **피쉬본 다이어그램** 생성 - 이시카와 다이어그램이라고도 하며, 문제의 근본 원인을 식별하고 표시하는 데 사용됩니다.
+19. `generate_flow_diagram`: **순서도** 생성 - 프로세스의 단계와 순서를 표시하는 데 사용됩니다.
+20. `generate_mind_map`: **마인드맵** 생성 - 사고 과정과 계층적 정보를 표시하는 데 사용됩니다.
+21. `generate_network_graph`: **네트워크 그래프** 생성 - 노드 간의 관계와 연결을 표시하는 데 사용됩니다.
+22. `generate_organization_chart`: **조직도** 생성 - 조직의 구조와 인력 관계를 표시하는 데 사용됩니다.
 
-## 🤖 Usage
+### 중국 지도 차트 (기본적으로 비활성화됨)
 
-To use with `Desktop APP`, such as Claude, VSCode, [Cline](https://cline.bot/mcp-marketplace), Cherry Studio, Cursor, and so on, add the MCP server config below. On Mac system:
+23. `generate_district_map`: **행정구역 지도** 생성 - 중국 행정구역과 데이터 분포를 표시합니다.
+24. `generate_path_map`: **경로 지도** 생성 - 중국 내 관심 지점(POI)의 경로 계획 결과를 표시합니다.
+25. `generate_pin_map`: **핀 지도** 생성 - 중국 내 관심 지점(POI)의 분포를 표시합니다.
+
+> [!WARNING]
+> 중국 지도 차트 생성 도구는 **기본적으로 비활성화**되어 있습니다.
+> - 외부 서버(`VIS_REQUEST_SERVER`)가 필요하며 로컬 렌더링을 지원하지 않습니다
+> - 사용하려면 [환경 변수 설정](#️-환경-변수)에서 `VIS_REQUEST_SERVER`를 설정하고 `DISABLED_TOOLS`에서 해당 도구를 제거해야 합니다
+> - 도구는 [고덕지도(AMap) 서비스](https://lbs.amap.com/)를 사용하며 중국 내 지도만 지원합니다
+
+### 🇰🇷 한국 지도 차트 (기본적으로 비활성화됨)
+
+26. `generate_korea_district_map`: **한국 행정구역 지도** 생성 - 대한민국의 시/도, 시/군/구 행정구역과 데이터 분포를 표시합니다.
+27. `generate_korea_path_map`: **한국 경로 지도** 생성 - 대한민국 내 관심 지점의 경로 계획을 표시합니다.
+28. `generate_korea_pin_map`: **한국 핀 지도** 생성 - 대한민국 내 관심 지점의 분포를 표시합니다.
+
+> [!WARNING]
+> 한국 지도 차트 생성 도구는 **기본적으로 비활성화**되어 있습니다.
+> - 외부 서버(`VIS_REQUEST_SERVER`)가 필요하며 로컬 렌더링을 지원하지 않습니다
+> - 사용하려면 [환경 변수 설정](#️-환경-변수)에서 `VIS_REQUEST_SERVER`를 설정하고 `DISABLED_TOOLS`에서 해당 도구를 제거해야 합니다
+> - 도구는 Kakao Maps 또는 Naver Maps API를 사용합니다 (API 키 필요)
+
+## 🤖 사용법
+
+Claude, VSCode, [Cline](https://cline.bot/mcp-marketplace), Cherry Studio, Cursor 등의 데스크톱 앱에서 사용하려면 아래 MCP 서버 설정을 추가하세요.
+
+### Mac 시스템:
 
 ```json
 {
@@ -79,7 +100,7 @@ To use with `Desktop APP`, such as Claude, VSCode, [Cline](https://cline.bot/mcp
 }
 ```
 
-On Window system:
+### Windows 시스템:
 
 ```json
 {
@@ -97,91 +118,134 @@ On Window system:
 }
 ```
 
-Also, you can use it on [aliyun](https://bailian.console.aliyun.com/?tab=mcp#/mcp-market/detail/antv-visualization-chart), [modelscope](https://www.modelscope.cn/mcp/servers/@antvis/mcp-server-chart), [glama.ai](https://glama.ai/mcp/servers/@antvis/mcp-server-chart), [smithery.ai](https://smithery.ai/server/@antvis/mcp-server-chart) or others with HTTP, SSE Protocol.
+## 🚰 SSE 또는 Streamable 전송으로 실행
 
-## 🚰 Run with SSE or Streamable transport
+### 직접 실행
 
-### Run directly
-
-Install the package globally.
+패키지를 전역으로 설치합니다.
 
 ```bash
 npm install -g @antv/mcp-server-chart
 ```
 
-Run the server with your preferred transport option:
+선호하는 전송 옵션으로 서버를 실행합니다:
 
 ```bash
-# For SSE transport (default endpoint: /sse)
+# SSE 전송 (기본 엔드포인트: /sse)
 mcp-server-chart --transport sse
 
-# For Streamable transport with custom endpoint
+# 사용자 지정 엔드포인트를 사용한 Streamable 전송
 mcp-server-chart --transport streamable
 ```
 
-Then you can access the server at:
+그런 다음 다음 주소에서 서버에 액세스할 수 있습니다:
 
-- SSE transport: `http://localhost:1122/sse`
-- Streamable transport: `http://localhost:1122/mcp`
+- SSE 전송: `http://localhost:1122/sse`
+- Streamable 전송: `http://localhost:1122/mcp`
 
-### Docker deploy
+### Docker 배포
 
-Enter the docker directory.
+docker 디렉토리로 이동합니다.
 
 ```bash
 cd docker
 ```
 
-Deploy using docker-compose.
+docker-compose를 사용하여 배포합니다.
 
 ```bash
 docker compose up -d
 ```
 
-Then you can access the server at:
+그런 다음 다음 주소에서 서버에 액세스할 수 있습니다:
 
-- SSE transport: `http://localhost:1123/sse`
-- Streamable transport: `http://localhost:1122/mcp`
+- SSE 전송: `http://localhost:1123/sse`
+- Streamable 전송: `http://localhost:1122/mcp`
 
-## 🎮 CLI Options
+## 🎮 CLI 옵션
 
-You can also use the following CLI options when running the MCP server. Command options by run cli with `-h`.
+MCP 서버 실행 시 다음 CLI 옵션을 사용할 수 있습니다. `-h`로 명령 옵션을 확인할 수 있습니다.
 
 ```plain
 MCP Server Chart CLI
 
-Options:
-  --transport, -t  Specify the transport protocol: "stdio", "sse", or "streamable" (default: "stdio")
-  --port, -p       Specify the port for SSE or streamable transport (default: 1122)
-  --endpoint, -e   Specify the endpoint for the transport:
-                   - For SSE: default is "/sse"
-                   - For streamable: default is "/mcp"
-  --help, -h       Show this help message
+옵션:
+  --transport, -t  전송 프로토콜 지정: "stdio", "sse", 또는 "streamable" (기본값: "stdio")
+  --port, -p       SSE 또는 streamable 전송의 포트 지정 (기본값: 1122)
+  --endpoint, -e   전송의 엔드포인트 지정:
+                   - SSE의 경우: 기본값은 "/sse"
+                   - streamable의 경우: 기본값은 "/mcp"
+  --help, -h       이 도움말 메시지 표시
 ```
 
-## ⚙️ Environment Variables
+## ⚙️ 환경 변수
 
-| Variable | Description | Default | Example |
+| 변수 | 설명 | 기본값 | 예시 |
 |----------|:------------|---------|---------|
-| `VIS_REQUEST_SERVER` | Custom chart generation service URL for private deployment | `https://antv-studio.alipay.com/api/gpt-vis` | `https://your-server.com/api/chart` |
-| `SERVICE_ID` | Service identifier for chart generation records | - | `your-service-id-123` |
-| `DISABLED_TOOLS` | Comma-separated list of tool names to disable | - | `generate_fishbone_diagram,generate_mind_map` |
+| `USE_LOCAL_RENDERER` | 로컬 렌더링 사용 여부 | `true` (기본적으로 로컬 렌더링 사용) | `false` (외부 서버 사용 시) |
+| `OUTPUT_DIR` | 로컬 생성된 차트 이미지 저장 경로 | `./output` | `./charts` 또는 `D:/charts` |
+| `VIS_REQUEST_SERVER` | 프라이빗 배포를 위한 사용자 지정 차트 생성 서비스 URL (지도 차트 사용 시 필수) | - | `https://your-server.com/api/chart` |
+| `SERVICE_ID` | 차트 생성 기록을 위한 서비스 식별자 | - | `your-service-id-123` |
+| `DISABLED_TOOLS` | 비활성화할 도구 이름의 쉼표로 구분된 목록 | 모든 지도 도구 (아래 참조) | `generate_fishbone_diagram,generate_mind_map` |
+| `LOCALE` | 인터페이스 언어 설정 | `en` | `ko`, `zh`, `en` |
+| `KAKAO_MAP_API_KEY` | Kakao Maps API 키 (한국 지도용) | - | `your-kakao-api-key` |
+| `NAVER_MAP_CLIENT_ID` | Naver Maps 클라이언트 ID (한국 지도용) | - | `your-naver-client-id` |
+| `NAVER_MAP_CLIENT_SECRET` | Naver Maps 클라이언트 시크릿 (한국 지도용) | - | `your-naver-client-secret` |
 
+**기본적으로 비활성화된 도구 (지도 차트):**
+- `generate_district_map` (중국 행정구역 지도)
+- `generate_path_map` (중국 경로 지도)
+- `generate_pin_map` (중국 핀 지도)
+- `generate_korea_district_map` (한국 행정구역 지도)
+- `generate_korea_pin_map` (한국 핀 지도)
+- `generate_korea_path_map` (한국 경로 지도)
 
-### 📠 Private Deployment
+> [!NOTE]
+> 지도 차트는 외부 서버가 필요하므로 기본적으로 비활성화되어 있습니다. 사용하려면 `VIS_REQUEST_SERVER`를 설정하고 `DISABLED_TOOLS`를 빈 문자열(`""`)로 설정하거나 원하는 도구만 제외하세요.
 
-`MCP Server Chart` provides a free chart generation service by default. For users with a need for private deployment, they can try using `VIS_REQUEST_SERVER` to customize their own chart generation service.
+### 🖼️ 로컬 렌더링 (기본 모드)
+
+**기본적으로 로컬 렌더링이 활성화되어 있습니다.** 차트가 로컬에서 생성되며 외부 서버로 데이터가 전송되지 않습니다.
 
 ```json
 {
   "mcpServers": {
     "mcp-server-chart": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@antv/mcp-server-chart"
-      ],
+      "args": ["-y", "@antv/mcp-server-chart"]
+    }
+  }
+}
+```
+
+출력 디렉토리를 변경하려면:
+
+```json
+{
+  "mcpServers": {
+    "mcp-server-chart": {
+      "command": "npx",
+      "args": ["-y", "@antv/mcp-server-chart"],
       "env": {
+        "OUTPUT_DIR": "./charts"
+      }
+    }
+  }
+}
+```
+
+### 📠 외부 서버 사용 (선택사항)
+
+외부 차트 생성 서비스를 사용하려면 `USE_LOCAL_RENDERER=false`로 설정하고 `VIS_REQUEST_SERVER`를 지정해야 합니다.
+
+```json
+{
+  "mcpServers": {
+    "mcp-server-chart": {
+      "command": "npx",
+      "args": ["-y", "@antv/mcp-server-chart"],
+      "env": {
+        "USE_LOCAL_RENDERER": "false",
         "VIS_REQUEST_SERVER": "<YOUR_VIS_REQUEST_SERVER>"
       }
     }
@@ -189,52 +253,27 @@ Options:
 }
 ```
 
-You can use AntV's project [GPT-Vis-SSR](https://github.com/antvis/GPT-Vis/tree/main/bindings/gpt-vis-ssr) to deploy an HTTP service in a private environment, and then pass the URL address through env `VIS_REQUEST_SERVER`.
+AntV의 프로젝트 [GPT-Vis-SSR](https://github.com/antvis/GPT-Vis/tree/main/bindings/gpt-vis-ssr)을 사용하여 프라이빗 환경에 HTTP 서비스를 배포한 다음, env `VIS_REQUEST_SERVER`를 통해 URL 주소를 전달할 수 있습니다.
 
-- **Method**: `POST`
-- **Parameter**: Which will be passed to `GPT-Vis-SSR` for rendering. Such as, `{ "type": "line", "data": [{ "time": "2025-05", "value": 512 }, { "time": "2025-06", "value": 1024 }] }`.
-- **Return**: The return object of HTTP service.
-  - **success**: `boolean` Whether generate chart image successfully.
-  - **resultObj**: `string` The chart image url.
-  - **errorMessage**: `string` When `success = false`, return the error message.
+- **메서드**: `POST`
+- **매개변수**: 렌더링을 위해 `GPT-Vis-SSR`로 전달됩니다. 예: `{ "type": "line", "data": [{ "time": "2025-05", "value": 512 }, { "time": "2025-06", "value": 1024 }] }`.
+- **반환값**: HTTP 서비스의 반환 객체.
+  - **success**: `boolean` 차트 이미지 생성 성공 여부.
+  - **resultObj**: `string` 차트 이미지 URL.
+  - **errorMessage**: `string` `success = false`일 때 오류 메시지를 반환합니다.
 
 > [!NOTE]
-> The private deployment solution currently does not support geographic visualization chart generation include 3 tools: `geographic-district-map`, `geographic-path-map`, `geographic-pin-map`.
+> 프라이빗 배포 솔루션은 현재 3개의 지리적 시각화 차트 생성 도구를 지원하지 않습니다: `geographic-district-map`, `geographic-path-map`, `geographic-pin-map`.
 
-### 🗺️ Generate Records
+### 🗺️ 생성 기록
 
-By default, users are required to save the results themselves, but we also provide a service for viewing the chart generation records, which requires users to generate a service identifier for themselves and configure it.
+기본적으로 사용자는 결과를 직접 저장해야 하지만, 차트 생성 기록을 볼 수 있는 서비스도 제공하며, 이를 위해 사용자가 직접 서비스 식별자를 생성하고 설정해야 합니다.
 
-Use Alipay to scan and open the mini program to generate a personal service identifier (click the "My" menu below, enter the "My Services" page, click the "Generate" button, and click the "Copy" button after success):
+다음 단계는 중국의 알리페이 미니 프로그램을 사용하는 예시입니다. 한국 사용자는 이 기능을 사용하지 못할 수 있습니다.
 
-<img alt="my service identifier website" width="240" src="https://mdn.alipayobjects.com/huamei_dxq8v0/afts/img/dASoTLt6EywAAAAARqAAAAgADu43AQFr/fmt.webp" />
+### 🎛️ 도구 필터링
 
-Next, you need to add the `SERVICE_ID` environment variable to the MCP server configuration. For example, the configuration for Mac is as follows (for Windows systems, just add the `env` variable):
-
-```json
-{
-  "mcpServers": {
-    "AntV Map": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@antv/mcp-server-chart"
-      ],
-      "env": {
-        "SERVICE_ID": "***********************************"
-      }
-    }
-  }
-}
-```
-
-After updating the MCP Server configuration, you need to restart your AI client application and check again whether you have started and connected to the MCP Server successfully. Then you can try to generate the map again. After the generation is successful, you can go to the "My Map" page of the mini program to view your map generation records.
-
-<img alt="my map records website" width="240" src="https://mdn.alipayobjects.com/huamei_dxq8v0/afts/img/RacFR7emR3QAAAAAUkAAAAgADu43AQFr/original" />
-
-### 🎛️ Tool Filtering
-
-You can disable specific chart generation tools using the `DISABLED_TOOLS` environment variable. This is useful when certain tools have compatibility issues with your MCP client or when you want to limit the available functionality.
+`DISABLED_TOOLS` 환경 변수를 사용하여 특정 차트 생성 도구를 비활성화할 수 있습니다. 이는 특정 도구가 MCP 클라이언트와 호환성 문제가 있거나 사용 가능한 기능을 제한하고 싶을 때 유용합니다.
 
 ```json
 {
@@ -253,41 +292,118 @@ You can disable specific chart generation tools using the `DISABLED_TOOLS` envir
 }
 ```
 
-**Available tool names for filtering** See the [✨ Features](#-features).
+**필터링 가능한 도구 이름** [✨ 기능](#-기능)을 참조하세요.
 
-## 🔨 Development
+## 🇰🇷 한국 지도 지원
 
-Install dependencies:
+한국 지도 기능을 사용하려면 Kakao Maps 또는 Naver Maps API 키가 필요합니다.
+
+### Kakao Maps API 키 발급
+
+1. [Kakao Developers](https://developers.kakao.com/)에 접속하여 로그인
+2. "내 애플리케이션" > "애플리케이션 추가하기"
+3. 앱 생성 후 "JavaScript 키" 또는 "REST API 키" 복사
+4. 환경 변수에 추가:
+
+```json
+{
+  "mcpServers": {
+    "mcp-server-chart": {
+      "command": "npx",
+      "args": ["-y", "@antv/mcp-server-chart"],
+      "env": {
+        "KAKAO_MAP_API_KEY": "your-kakao-api-key"
+      }
+    }
+  }
+}
+```
+
+### Naver Maps API 키 발급
+
+1. [Naver Cloud Platform](https://www.ncloud.com/)에 접속하여 로그인
+2. "AI·NAVER API" > "Application 등록"
+3. "Maps" 서비스 선택 및 등록
+4. Client ID와 Client Secret 복사
+5. 환경 변수에 추가:
+
+```json
+{
+  "mcpServers": {
+    "mcp-server-chart": {
+      "command": "npx",
+      "args": ["-y", "@antv/mcp-server-chart"],
+      "env": {
+        "NAVER_MAP_CLIENT_ID": "your-naver-client-id",
+        "NAVER_MAP_CLIENT_SECRET": "your-naver-client-secret"
+      }
+    }
+  }
+}
+```
+
+### 한국 지도 사용 예시
+
+```javascript
+// 서울 주요 관광지 지도
+{
+  "title": "서울 주요 관광지",
+  "data": ["서울 남산타워", "서울 경복궁", "서울 명동성당", "서울 청계천"],
+  "mapProvider": "kakao"
+}
+
+// 대한민국 시도별 인구 분포
+{
+  "title": "대한민국 광역시도 인구 분포",
+  "data": {
+    "name": "대한민국",
+    "showAllSubdistricts": true,
+    "dataLabel": "인구",
+    "dataType": "number",
+    "dataValueUnit": "만명",
+    "colors": ["#4ECDC4"],
+    "subdistricts": [
+      {"name": "서울특별시", "dataValue": "967"},
+      {"name": "부산광역시", "dataValue": "339"},
+      {"name": "경기도", "dataValue": "1356"}
+    ]
+  },
+  "mapProvider": "kakao"
+}
+```
+
+## 🔨 개발
+
+의존성 설치:
 
 ```bash
 npm install
 ```
 
-Build the server:
+서버 빌드:
 
 ```bash
 npm run build
 ```
 
-Start the MCP server:
+MCP 서버 시작:
 
 ```bash
 npm run start
 ```
 
-Start the MCP server with SSE transport:
+SSE 전송으로 MCP 서버 시작:
 
 ```bash
 node build/index.js -t sse
 ```
 
-Start the MCP server with Streamable transport:
+Streamable 전송으로 MCP 서버 시작:
 
 ```bash
 node build/index.js -t streamable
 ```
 
-
-## 📄 License
+## 📄 라이선스
 
 MIT@[AntV](https://github.com/antvis).
