@@ -1,6 +1,6 @@
 # MCP Server Chart  ![](https://badge.mcpx.dev?type=server 'MCP Server')  [![build](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml) [![npm Version](https://img.shields.io/npm/v/@antv/mcp-server-chart.svg)](https://www.npmjs.com/package/@antv/mcp-server-chart)
 
-> [English](./README.en.md) | 한국어
+한국어 | **[English](./README.en.md)**
 
 [AntV](https://github.com/antvis/)를 사용한 차트 생성을 위한 Model Context Protocol 서버입니다. 이 MCP 서버를 통해 _차트 생성_ 및 _데이터 분석_을 수행할 수 있습니다.
 
@@ -56,29 +56,23 @@ TypeScript 기반 MCP 서버로, 차트 생성 기능을 제공합니다. MCP �
 21. `generate_network_graph`: **네트워크 그래프** 생성 - 노드 간의 관계와 연결을 표시하는 데 사용됩니다.
 22. `generate_organization_chart`: **조직도** 생성 - 조직의 구조와 인력 관계를 표시하는 데 사용됩니다.
 
-### 중국 지도 차트 (기본적으로 비활성화됨)
+### 중국 지도 차트 (AMap 서비스 사용)
 
 23. `generate_district_map`: **행정구역 지도** 생성 - 중국 행정구역과 데이터 분포를 표시합니다.
 24. `generate_path_map`: **경로 지도** 생성 - 중국 내 관심 지점(POI)의 경로 계획 결과를 표시합니다.
 25. `generate_pin_map`: **핀 지도** 생성 - 중국 내 관심 지점(POI)의 분포를 표시합니다.
 
-> [!WARNING]
-> 중국 지도 차트 생성 도구는 **기본적으로 비활성화**되어 있습니다.
-> - 외부 서버(`VIS_REQUEST_SERVER`)가 필요하며 로컬 렌더링을 지원하지 않습니다
-> - 사용하려면 [환경 변수 설정](#️-환경-변수)에서 `VIS_REQUEST_SERVER`를 설정하고 `DISABLED_TOOLS`에서 해당 도구를 제거해야 합니다
-> - 도구는 [고덕지도(AMap) 서비스](https://lbs.amap.com/)를 사용하며 중국 내 지도만 지원합니다
+> [!NOTE]
+> 위의 중국 지도 시각화 차트 생성 도구는 [고덕지도(AMap) 서비스](https://lbs.amap.com/)를 사용하며 현재 중국 내 지도 생성만 지원합니다.
 
-### 🇰🇷 한국 지도 차트 (기본적으로 비활성화됨)
+### 🇰🇷 한국 지도 차트 (신규!)
 
 26. `generate_korea_district_map`: **한국 행정구역 지도** 생성 - 대한민국의 시/도, 시/군/구 행정구역과 데이터 분포를 표시합니다.
 27. `generate_korea_path_map`: **한국 경로 지도** 생성 - 대한민국 내 관심 지점의 경로 계획을 표시합니다.
 28. `generate_korea_pin_map`: **한국 핀 지도** 생성 - 대한민국 내 관심 지점의 분포를 표시합니다.
 
-> [!WARNING]
-> 한국 지도 차트 생성 도구는 **기본적으로 비활성화**되어 있습니다.
-> - 외부 서버(`VIS_REQUEST_SERVER`)가 필요하며 로컬 렌더링을 지원하지 않습니다
-> - 사용하려면 [환경 변수 설정](#️-환경-변수)에서 `VIS_REQUEST_SERVER`를 설정하고 `DISABLED_TOOLS`에서 해당 도구를 제거해야 합니다
-> - 도구는 Kakao Maps 또는 Naver Maps API를 사용합니다 (API 키 필요)
+> [!NOTE]
+> 한국 지도 시각화 도구는 Kakao Maps 또는 Naver Maps API를 사용합니다. 사용하려면 API 키를 환경 변수로 설정해야 합니다.
 
 ## 🤖 사용법
 
@@ -182,70 +176,28 @@ MCP Server Chart CLI
 
 | 변수 | 설명 | 기본값 | 예시 |
 |----------|:------------|---------|---------|
-| `USE_LOCAL_RENDERER` | 로컬 렌더링 사용 여부 | `true` (기본적으로 로컬 렌더링 사용) | `false` (외부 서버 사용 시) |
-| `OUTPUT_DIR` | 로컬 생성된 차트 이미지 저장 경로 | `./output` | `./charts` 또는 `D:/charts` |
-| `VIS_REQUEST_SERVER` | 프라이빗 배포를 위한 사용자 지정 차트 생성 서비스 URL (지도 차트 사용 시 필수) | - | `https://your-server.com/api/chart` |
+| `VIS_REQUEST_SERVER` | 프라이빗 배포를 위한 사용자 지정 차트 생성 서비스 URL | `https://antv-studio.alipay.com/api/gpt-vis` | `https://your-server.com/api/chart` |
 | `SERVICE_ID` | 차트 생성 기록을 위한 서비스 식별자 | - | `your-service-id-123` |
-| `DISABLED_TOOLS` | 비활성화할 도구 이름의 쉼표로 구분된 목록 | 모든 지도 도구 (아래 참조) | `generate_fishbone_diagram,generate_mind_map` |
+| `DISABLED_TOOLS` | 비활성화할 도구 이름의 쉼표로 구분된 목록 | - | `generate_fishbone_diagram,generate_mind_map` |
 | `LOCALE` | 인터페이스 언어 설정 | `en` | `ko`, `zh`, `en` |
 | `KAKAO_MAP_API_KEY` | Kakao Maps API 키 (한국 지도용) | - | `your-kakao-api-key` |
 | `NAVER_MAP_CLIENT_ID` | Naver Maps 클라이언트 ID (한국 지도용) | - | `your-naver-client-id` |
 | `NAVER_MAP_CLIENT_SECRET` | Naver Maps 클라이언트 시크릿 (한국 지도용) | - | `your-naver-client-secret` |
 
-**기본적으로 비활성화된 도구 (지도 차트):**
-- `generate_district_map` (중국 행정구역 지도)
-- `generate_path_map` (중국 경로 지도)
-- `generate_pin_map` (중국 핀 지도)
-- `generate_korea_district_map` (한국 행정구역 지도)
-- `generate_korea_pin_map` (한국 핀 지도)
-- `generate_korea_path_map` (한국 경로 지도)
+### 📠 프라이빗 배포
 
-> [!NOTE]
-> 지도 차트는 외부 서버가 필요하므로 기본적으로 비활성화되어 있습니다. 사용하려면 `VIS_REQUEST_SERVER`를 설정하고 `DISABLED_TOOLS`를 빈 문자열(`""`)로 설정하거나 원하는 도구만 제외하세요.
-
-### 🖼️ 로컬 렌더링 (기본 모드)
-
-**기본적으로 로컬 렌더링이 활성화되어 있습니다.** 차트가 로컬에서 생성되며 외부 서버로 데이터가 전송되지 않습니다.
+`MCP Server Chart`는 기본적으로 무료 차트 생성 서비스를 제공합니다. 프라이빗 배포가 필요한 사용자는 `VIS_REQUEST_SERVER`를 사용하여 자체 차트 생성 서비스를 커스터마이즈할 수 있습니다.
 
 ```json
 {
   "mcpServers": {
     "mcp-server-chart": {
       "command": "npx",
-      "args": ["-y", "@antv/mcp-server-chart"]
-    }
-  }
-}
-```
-
-출력 디렉토리를 변경하려면:
-
-```json
-{
-  "mcpServers": {
-    "mcp-server-chart": {
-      "command": "npx",
-      "args": ["-y", "@antv/mcp-server-chart"],
+      "args": [
+        "-y",
+        "@antv/mcp-server-chart"
+      ],
       "env": {
-        "OUTPUT_DIR": "./charts"
-      }
-    }
-  }
-}
-```
-
-### 📠 외부 서버 사용 (선택사항)
-
-외부 차트 생성 서비스를 사용하려면 `USE_LOCAL_RENDERER=false`로 설정하고 `VIS_REQUEST_SERVER`를 지정해야 합니다.
-
-```json
-{
-  "mcpServers": {
-    "mcp-server-chart": {
-      "command": "npx",
-      "args": ["-y", "@antv/mcp-server-chart"],
-      "env": {
-        "USE_LOCAL_RENDERER": "false",
         "VIS_REQUEST_SERVER": "<YOUR_VIS_REQUEST_SERVER>"
       }
     }

@@ -1,6 +1,6 @@
 # MCP Server Chart  ![](https://badge.mcpx.dev?type=server 'MCP Server')  [![build](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml) [![npm Version](https://img.shields.io/npm/v/@antv/mcp-server-chart.svg)](https://www.npmjs.com/package/@antv/mcp-server-chart) [![smithery badge](https://smithery.ai/badge/@antvis/mcp-server-chart)](https://smithery.ai/server/@antvis/mcp-server-chart) [![npm License](https://img.shields.io/npm/l/@antv/mcp-server-chart.svg)](https://www.npmjs.com/package/@antv/mcp-server-chart) [![Trust Score](https://archestra.ai/mcp-catalog/api/badge/quality/antvis/mcp-server-chart)](https://archestra.ai/mcp-catalog/antvis__mcp-server-chart)
 
-> English | [한국어](./README.md)
+**[한국어](./README.ko.md)** | English
 
 A Model Context Protocol server for generating charts using [AntV](https://github.com/antvis/). We can use this mcp server for _chart generation_ and _data analysis_.
 
@@ -36,7 +36,7 @@ Now 25+ charts supported.
 1. `generate_bar_chart`: Generate a `bar` chart, used to compare values across different categories, suitable for horizontal comparisons.
 1. `generate_boxplot_chart`: Generate a `boxplot`, used to display the distribution of data, including the median, quartiles, and outliers.
 1. `generate_column_chart`: Generate a `column` chart, used to compare values across different categories, suitable for vertical comparisons.
-1. `generate_district_map` - **[DISABLED BY DEFAULT]** Generate a `district-map`, used to show administrative divisions and data distribution.
+1. `generate_district_map` - Generate a `district-map`, used to show administrative divisions and data distribution.
 1. `generate_dual_axes_chart`: Generate a `dual-axes` chart, used to display the relationship between two variables with different units or ranges.
 1. `generate_fishbone_diagram`: Generate a `fishbone` diagram, also known as an Ishikawa diagram, used to identify and display the root causes of a problem.
 1. `generate_flow_diagram`: Generate a `flowchart`, used to display the steps and sequence of a process.
@@ -47,9 +47,9 @@ Now 25+ charts supported.
 1. `generate_mind_map`: Generate a `mind-map`, used to display thought processes and hierarchical information.
 1. `generate_network_graph`: Generate a `network` graph, used to display relationships and connections between nodes.
 1. `generate_organization_chart`: Generate an `organizational` chart, used to display the structure of an organization and personnel relationships.
-1. `generate_path_map` - **[DISABLED BY DEFAULT]** Generate a `path-map`, used to display route planning results for POIs.
+1. `generate_path_map` - Generate a `path-map`, used to display route planning results for POIs.
 1. `generate_pie_chart`: Generate a `pie` chart, used to display the proportion of data, dividing it into parts represented by sectors showing the percentage of each part.
-1. `generate_pin_map` - **[DISABLED BY DEFAULT]** Generate a `pin-map`, used to show the distribution of POIs.
+1. `generate_pin_map` - Generate a `pin-map`, used to show the distribution of POIs.
 1. `generate_radar_chart`: Generate a `radar` chart, used to display multi-dimensional data comprehensively, showing multiple dimensions in a radar-like format.
 1. `generate_sankey_chart`: Generate a `sankey` chart, used to display data flow and volume, representing the movement of data between different nodes in a Sankey-style format.
 1. `generate_scatter_chart`: Generate a `scatter` plot, used to display the relationship between two variables, showing data points as scattered dots on a coordinate system.
@@ -58,11 +58,8 @@ Now 25+ charts supported.
 1. `generate_violin_chart`: Generate a `violin` plot, used to display the distribution of data, combining features of boxplots and density plots to provide a more detailed view of the data distribution.
 1. `generate_word_cloud_chart`: Generate a `word-cloud`, used to display the frequency of words in textual data, with font sizes indicating the frequency of each word.
 
-> [!WARNING]
-> Map chart generation tools (district-map, path-map, pin-map) are **DISABLED BY DEFAULT**.
-> - They require an external server (`VIS_REQUEST_SERVER`) and do not support local rendering
-> - To enable them, set `VIS_REQUEST_SERVER` and configure `DISABLED_TOOLS` in [Environment Variables](#%EF%B8%8F-environment-variables)
-> - These tools use [AMap service](https://lbs.amap.com/) and only support map generation within China
+> [!NOTE]
+> The above geographic visualization chart generation tool uses [AMap service](https://lbs.amap.com/) and currently only supports map generation within China.
 
 ## 🤖 Usage
 
@@ -166,67 +163,25 @@ Options:
 
 | Variable | Description | Default | Example |
 |----------|:------------|---------|---------|
-| `USE_LOCAL_RENDERER` | Enable local chart rendering | `true` (local rendering by default) | `false` (to use external server) |
-| `OUTPUT_DIR` | Directory path for locally generated chart images | `./output` | `./charts` or `D:/charts` |
-| `VIS_REQUEST_SERVER` | Custom chart generation service URL (required for map charts) | - | `https://your-server.com/api/chart` |
+| `VIS_REQUEST_SERVER` | Custom chart generation service URL for private deployment | `https://antv-studio.alipay.com/api/gpt-vis` | `https://your-server.com/api/chart` |
 | `SERVICE_ID` | Service identifier for chart generation records | - | `your-service-id-123` |
-| `DISABLED_TOOLS` | Comma-separated list of tool names to disable | All map tools (see below) | `generate_fishbone_diagram,generate_mind_map` |
-
-**Tools Disabled by Default (Map Charts):**
-- `generate_district_map` (China district map)
-- `generate_path_map` (China path map)
-- `generate_pin_map` (China pin map)
-- `generate_korea_district_map` (Korea district map)
-- `generate_korea_pin_map` (Korea pin map)
-- `generate_korea_path_map` (Korea path map)
-
-> [!NOTE]
-> Map charts require an external server and are disabled by default. To use them, set `VIS_REQUEST_SERVER` and configure `DISABLED_TOOLS` to an empty string (`""`) or exclude only the tools you want to enable.
+| `DISABLED_TOOLS` | Comma-separated list of tool names to disable | - | `generate_fishbone_diagram,generate_mind_map` |
 
 
-### 🖼️ Local Rendering (Default Mode)
+### 📠 Private Deployment
 
-**Local rendering is enabled by default.** Charts are generated locally without sending data to external servers.
+`MCP Server Chart` provides a free chart generation service by default. For users with a need for private deployment, they can try using `VIS_REQUEST_SERVER` to customize their own chart generation service.
 
 ```json
 {
   "mcpServers": {
     "mcp-server-chart": {
       "command": "npx",
-      "args": ["-y", "@antv/mcp-server-chart"]
-    }
-  }
-}
-```
-
-To change the output directory:
-
-```json
-{
-  "mcpServers": {
-    "mcp-server-chart": {
-      "command": "npx",
-      "args": ["-y", "@antv/mcp-server-chart"],
+      "args": [
+        "-y",
+        "@antv/mcp-server-chart"
+      ],
       "env": {
-        "OUTPUT_DIR": "./charts"
-      }
-    }
-  }
-}
-```
-
-### 📠 External Server (Optional)
-
-To use an external chart generation service, set `USE_LOCAL_RENDERER=false` and provide `VIS_REQUEST_SERVER`:
-
-```json
-{
-  "mcpServers": {
-    "mcp-server-chart": {
-      "command": "npx",
-      "args": ["-y", "@antv/mcp-server-chart"],
-      "env": {
-        "USE_LOCAL_RENDERER": "false",
         "VIS_REQUEST_SERVER": "<YOUR_VIS_REQUEST_SERVER>"
       }
     }
