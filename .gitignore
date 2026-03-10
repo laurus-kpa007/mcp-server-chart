@@ -27,6 +27,10 @@ coverage
 .vscode
 .histor
 
+# Output (generated chart images)
+output/
+examples/chart-agent/output/
+
 # Package
 package-lock.json
 pnpm-lock.yaml

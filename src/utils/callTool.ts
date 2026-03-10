@@ -2,6 +2,7 @@ import { ErrorCode, McpError } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import * as Charts from "../charts";
 import { generateChartUrl, generateMap } from "./generate";
+import { logger } from "./logger";
 import { ValidateError } from "./validator";
 
 // Chart type mapping
@@ -30,11 +31,22 @@ const CHART_TYPE_MAP = {
   generate_treemap_chart: "treemap",
   generate_venn_chart: "venn",
   generate_violin_chart: "violin",
+  generate_waterfall_chart: "waterfall",
   generate_word_cloud_chart: "word-cloud",
+  generate_spreadsheet: "spreadsheet",
   generate_korea_district_map: "korea-district-map",
   generate_korea_pin_map: "korea-pin-map",
   generate_korea_path_map: "korea-path-map",
 } as const;
+
+// Pre-compile Zod schemas at module load time to avoid recompiling on every request.
+const COMPILED_SCHEMA_CACHE = new Map<string, z.ZodObject<any>>();
+for (const chartType of Object.values(CHART_TYPE_MAP)) {
+  const schema = Charts[chartType as keyof typeof Charts]?.schema;
+  if (schema) {
+    COMPILED_SCHEMA_CACHE.set(chartType, z.object(schema));
+  }
+}
 
 /**
  * Call a tool to generate a chart based on the provided name and arguments.
@@ -43,21 +55,24 @@ const CHART_TYPE_MAP = {
  * @returns
  */
 export async function callTool(tool: string, args: object = {}) {
+  logger.info(`Calling tool: ${tool}`);
   const chartType = CHART_TYPE_MAP[tool as keyof typeof CHART_TYPE_MAP];
 
   if (!chartType) {
+    logger.error(`Unknown tool: ${tool}`);
     throw new McpError(ErrorCode.MethodNotFound, `Unknown tool: ${tool}.`);
   }
 
   try {
     // Validate input using Zod before sending to API.
-    // Select the appropriate schema based on the chart type.
-    const schema = Charts[chartType].schema;
+    // Use pre-compiled schema from cache to avoid recompiling on every call.
+    const compiledSchema = COMPILED_SCHEMA_CACHE.get(chartType);
 
-    if (schema) {
+    if (compiledSchema) {
       // Use safeParse instead of parse and try-catch.
-      const result = z.object(schema).safeParse(args);
+      const result = compiledSchema.safeParse(args);
       if (!result.success) {
+        logger.error(`Invalid parameters: ${result.error.message}`);
         throw new McpError(
           ErrorCode.InvalidParams,
           `Invalid parameters: ${result.error.message}`,
@@ -81,6 +96,7 @@ export async function callTool(tool: string, args: object = {}) {
     }
 
     const url = await generateChartUrl(chartType, args);
+    logger.info(`Generated chart URL: ${url}`);
 
     return {
       content: [
@@ -91,12 +107,14 @@ export async function callTool(tool: string, args: object = {}) {
       ],
       _meta: {
         description:
-          "Charts spec configuration, you can use this config to generate the corresponding chart.",
+          "The content returned by MCP is the remote image URL of the visualization chart, which can be rendered using Markdown or HTML image tags. The _meta.spec content corresponds to the chart's configuration and spec, which can be rendered using AntV GPT-Vis chart components.",
         spec: { type: chartType, ...args },
       },
     };
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   } catch (error: any) {
+    logger.error(
+      `Failed to generate chart: ${error.message || "Unknown error"}.`,
+    );
     if (error instanceof McpError) throw error;
     if (error instanceof ValidateError)
       throw new McpError(ErrorCode.InvalidParams, error.message);

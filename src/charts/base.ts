@@ -25,6 +25,12 @@ export const TextureSchema = z
     "Set the texture for the chart, optional, default is 'default'. 'rough' refers to hand-drawn style.",
   );
 
+export const StartAtZeroSchema = z
+  .boolean()
+  .optional()
+  .default(false)
+  .describe("Whether to start the axis at zero, optional, default is false.");
+
 export const WidthSchema = z
   .number()
   .optional()

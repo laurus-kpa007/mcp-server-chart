@@ -1,0 +1,19 @@
+{
+  "name": "chart-agent-example",
+  "version": "1.0.0",
+  "description": "MCP Chart Agent - Test client using LM Studio (Gemma3:4b)",
+  "type": "module",
+  "scripts": {
+    "start": "tsx agent.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.2",
+    "chalk": "^5.4.1",
+    "openai": "^4.78.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3"
+  }
+}

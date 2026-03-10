@@ -2,17 +2,13 @@ import process from "node:process";
 
 /**
  * Get the VIS_REQUEST_SERVER from environment variables.
- * Note: External server URL should be explicitly set via VIS_REQUEST_SERVER environment variable.
+ * Falls back to the default AntV Studio API if not set.
  */
 export function getVisRequestServer() {
-  if (!process.env.VIS_REQUEST_SERVER) {
-    throw new Error(
-      "VIS_REQUEST_SERVER environment variable is required when USE_LOCAL_RENDERER is not enabled. " +
-        "Please set VIS_REQUEST_SERVER to your chart generation service URL, " +
-        "or enable local rendering by setting USE_LOCAL_RENDERER=true",
-    );
-  }
-  return process.env.VIS_REQUEST_SERVER;
+  return (
+    process.env.VIS_REQUEST_SERVER ||
+    "https://antv-studio.alipay.com/api/gpt-vis"
+  );
 }
 
 /**
