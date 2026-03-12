@@ -12,10 +12,14 @@
 
 import { exec } from "node:child_process";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import OpenAI from "openai";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ─── Configuration ───────────────────────────────────────────────
 const LM_STUDIO_URL = process.argv.includes("--lm-url")
@@ -27,7 +31,7 @@ const LM_MODEL = process.argv.includes("--model")
   : "gemma-3-4b-it";
 
 const MCP_SERVER_PATH = path.resolve(
-  import.meta.dirname ?? ".",
+  __dirname,
   "../../build/index.js",
 );
 
@@ -137,7 +141,7 @@ async function initMCP(): Promise<void> {
     env: {
       ...process.env,
       USE_LOCAL_RENDERER: "true",
-      OUTPUT_DIR: path.resolve(import.meta.dirname ?? ".", "./output"),
+      OUTPUT_DIR: path.resolve(__dirname, "./output"),
     },
   });
 
@@ -239,7 +243,7 @@ async function chatWithLLM(userMessage: string): Promise<string> {
           arguments: toolArgs,
         });
 
-        const resultText = result.content
+        const resultText = (result.content as any[])
           .filter((c: any) => c.type === "text")
           .map((c: any) => c.text)
           .join("\n");
@@ -625,7 +629,7 @@ async function directChartCall(presetIndex: number): Promise<void> {
   try {
     const result = await mcpClient.callTool({
       name: call.tool,
-      arguments: call.args,
+      arguments: call.args as Record<string, unknown>,
     });
 
     const resultText = (result.content as any[])
