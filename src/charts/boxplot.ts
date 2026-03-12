@@ -16,7 +16,7 @@ import {
 const data = z.object({
   category: z
     .string()
-    .describe("Category of the data point, such as '分类一'."),
+    .describe("Category of the data point, such as 'Category A'."),
   value: z.number().describe("Value of the data point, such as 10."),
   group: z
     .string()
@@ -30,7 +30,7 @@ const schema = {
   data: z
     .array(data)
     .describe(
-      "Data for boxplot chart, such as, [{ category: '分类一', value: 10 }] or [{ category: '分类二', value: 20, group: '组别一' }].",
+      "Data for boxplot chart, such as, [{ category: 'Category A', value: 10 }] or [{ category: 'Category B', value: 20, group: 'Group A' }].",
     )
     .nonempty({ message: "Boxplot chart data cannot be empty." }),
   style: z
