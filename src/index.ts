@@ -1,4 +1,10 @@
 #!/usr/bin/env node
+
+// Register a require hook so Node.js can handle .css imports from @antv/s2
+// (which is eagerly loaded by @antv/gpt-vis-ssr's spreadsheet renderer).
+// Without this, Node.js throws "SyntaxError: Unexpected token '.'" on CSS files.
+require.extensions[".css"] = () => {};
+
 import { parseArgs } from "node:util";
 import {
   runHTTPStreamableServer,
