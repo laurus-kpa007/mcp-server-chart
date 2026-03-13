@@ -1,8 +1,8 @@
 # MCP Server Chart  ![](https://badge.mcpx.dev?type=server 'MCP Server')  [![build](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml/badge.svg)](https://github.com/antvis/mcp-server-chart/actions/workflows/build.yml) [![npm Version](https://img.shields.io/npm/v/@antv/mcp-server-chart.svg)](https://www.npmjs.com/package/@antv/mcp-server-chart) [![smithery badge](https://smithery.ai/badge/@antvis/mcp-server-chart)](https://smithery.ai/server/@antvis/mcp-server-chart) [![npm License](https://img.shields.io/npm/l/@antv/mcp-server-chart.svg)](https://www.npmjs.com/package/@antv/mcp-server-chart) [![Trust Score](https://archestra.ai/mcp-catalog/api/badge/quality/antvis/mcp-server-chart)](https://archestra.ai/mcp-catalog/antvis__mcp-server-chart)
 
-**[한국어](./README.ko.md)** | English
+**[한국어](./README.md)** | English
 
-A Model Context Protocol server for generating charts using [AntV](https://github.com/antvis/). We can use this mcp server for _chart generation_ and _data analysis_.
+A Model Context Protocol server for generating charts using [AntV](https://github.com/antvis/). We can use this MCP server for _chart generation_ and _data analysis_.
 
 <a href="https://www.star-history.com/#antvis/mcp-server-chart&Date">
   <img width="512" src="https://api.star-history.com/svg?repos=antvis/mcp-server-chart&type=Date" />
@@ -20,46 +20,73 @@ This is a TypeScript-based MCP server that provides chart generation capabilitie
   - [VIS_REQUEST_SERVER](#-private-deployment)
   - [SERVICE_ID](#%EF%B8%8F-generate-records)
   - [DISABLED_TOOLS](#%EF%B8%8F-tool-filtering)
+  - [Korea Map API Keys](#-korea-map-support)
 - [📠 Private Deployment](#-private-deployment)
 - [🗺️ Generate Records](#%EF%B8%8F-generate-records)
 - [🎛️ Tool Filtering](#%EF%B8%8F-tool-filtering)
+- [🇰🇷 Korea Map Support](#-korea-map-support)
 - [🔨 Development](#-development)
 - [📄 License](#-license)
 
 ## ✨ Features
 
-Now 25+ charts supported.
+Now 32 chart generation tools supported. Local rendering is enabled by default — 24 chart types are rendered locally without requiring an external API.
 
 <img width="768" alt="mcp-server-chart preview" src="https://mdn.alipayobjects.com/huamei_qa8qxu/afts/img/A*IyIRQIQHyKYAAAAAgCAAAAgAemJ7AQ/fmt.avif" />
 
-1. `generate_area_chart`: Generate an `area` chart, used to display the trend of data under a continuous independent variable, allowing observation of overall data trends.
-1. `generate_bar_chart`: Generate a `bar` chart, used to compare values across different categories, suitable for horizontal comparisons.
-1. `generate_boxplot_chart`: Generate a `boxplot`, used to display the distribution of data, including the median, quartiles, and outliers.
-1. `generate_column_chart`: Generate a `column` chart, used to compare values across different categories, suitable for vertical comparisons.
-1. `generate_district_map` - Generate a `district-map`, used to show administrative divisions and data distribution.
-1. `generate_dual_axes_chart`: Generate a `dual-axes` chart, used to display the relationship between two variables with different units or ranges.
-1. `generate_fishbone_diagram`: Generate a `fishbone` diagram, also known as an Ishikawa diagram, used to identify and display the root causes of a problem.
-1. `generate_flow_diagram`: Generate a `flowchart`, used to display the steps and sequence of a process.
-1. `generate_funnel_chart`: Generate a `funnel` chart, used to display data loss at different stages.
-1. `generate_histogram_chart`: Generate a `histogram`, used to display the distribution of data by dividing it into intervals and counting the number of data points in each interval.
-1. `generate_line_chart`: Generate a `line` chart, used to display the trend of data over time or another continuous variable.
-1. `generate_liquid_chart`: Generate a `liquid` chart, used to display the proportion of data, visually representing percentages in the form of water-filled spheres.
-1. `generate_mind_map`: Generate a `mind-map`, used to display thought processes and hierarchical information.
-1. `generate_network_graph`: Generate a `network` graph, used to display relationships and connections between nodes.
-1. `generate_organization_chart`: Generate an `organizational` chart, used to display the structure of an organization and personnel relationships.
-1. `generate_path_map` - Generate a `path-map`, used to display route planning results for POIs.
-1. `generate_pie_chart`: Generate a `pie` chart, used to display the proportion of data, dividing it into parts represented by sectors showing the percentage of each part.
-1. `generate_pin_map` - Generate a `pin-map`, used to show the distribution of POIs.
-1. `generate_radar_chart`: Generate a `radar` chart, used to display multi-dimensional data comprehensively, showing multiple dimensions in a radar-like format.
-1. `generate_sankey_chart`: Generate a `sankey` chart, used to display data flow and volume, representing the movement of data between different nodes in a Sankey-style format.
-1. `generate_scatter_chart`: Generate a `scatter` plot, used to display the relationship between two variables, showing data points as scattered dots on a coordinate system.
-1. `generate_treemap_chart`: Generate a `treemap`, used to display hierarchical data, showing data in rectangular forms where the size of rectangles represents the value of the data.
-1. `generate_venn_chart`: Generate a `venn` diagram, used to display relationships between sets, including intersections, unions, and differences.
-1. `generate_violin_chart`: Generate a `violin` plot, used to display the distribution of data, combining features of boxplots and density plots to provide a more detailed view of the data distribution.
-1. `generate_word_cloud_chart`: Generate a `word-cloud`, used to display the frequency of words in textual data, with font sizes indicating the frequency of each word.
+### Basic Charts
+
+1. `generate_area_chart`: Generate an **area** chart — display the trend of data under a continuous independent variable, allowing observation of overall data trends.
+2. `generate_bar_chart`: Generate a **bar** chart — compare values across different categories, suitable for horizontal comparisons.
+3. `generate_boxplot_chart`: Generate a **boxplot** — display the distribution of data, including the median, quartiles, and outliers.
+4. `generate_column_chart`: Generate a **column** chart — compare values across different categories, suitable for vertical comparisons.
+5. `generate_dual_axes_chart`: Generate a **dual-axes** chart — display the relationship between two variables with different units or ranges.
+6. `generate_funnel_chart`: Generate a **funnel** chart — display data loss at different stages.
+7. `generate_histogram_chart`: Generate a **histogram** — display the distribution of data by dividing it into intervals and counting data points in each interval.
+8. `generate_line_chart`: Generate a **line** chart — display the trend of data over time or another continuous variable.
+9. `generate_liquid_chart`: Generate a **liquid** chart — display the proportion of data, visually representing percentages in the form of water-filled spheres.
+10. `generate_pie_chart`: Generate a **pie** chart — display the proportion of data, dividing it into parts represented by sectors showing the percentage of each part.
+11. `generate_radar_chart`: Generate a **radar** chart — display multi-dimensional data comprehensively, showing multiple dimensions in a radar-like format.
+12. `generate_sankey_chart`: Generate a **sankey** chart — display data flow and volume, representing the movement of data between different nodes in a Sankey-style format.
+13. `generate_scatter_chart`: Generate a **scatter** plot — display the relationship between two variables, showing data points as scattered dots on a coordinate system.
+14. `generate_treemap_chart`: Generate a **treemap** — display hierarchical data, showing data in rectangular forms where the size of rectangles represents the value of the data.
+15. `generate_waterfall_chart`: Generate a **waterfall** chart — visualize the cumulative effect of sequentially introduced positive or negative values. Ideal for financial analysis, budget tracking, and profit and loss statements.
+16. `generate_violin_chart`: Generate a **violin** plot — display the distribution of data, combining features of boxplots and density plots to provide a more detailed view.
+
+### Diagrams & Graphs
+
+17. `generate_fishbone_diagram`: Generate a **fishbone** diagram — also known as an Ishikawa diagram, used to identify and display the root causes of a problem.
+18. `generate_flow_diagram`: Generate a **flowchart** — display the steps and sequence of a process.
+19. `generate_mind_map`: Generate a **mind map** — display thought processes and hierarchical information.
+20. `generate_network_graph`: Generate a **network** graph — display relationships and connections between nodes.
+21. `generate_organization_chart`: Generate an **organizational** chart — display the structure of an organization and personnel relationships.
+22. `generate_venn_chart`: Generate a **venn** diagram — display relationships between sets, including intersections, unions, and differences.
+23. `generate_word_cloud_chart`: Generate a **word cloud** — display the frequency of words in textual data, with font sizes indicating the frequency of each word.
+
+### Data Tables
+
+24. `generate_spreadsheet`: Generate a **spreadsheet** or pivot table — display tabular data. When `rows` or `values` fields are provided, it renders as a pivot table; otherwise, it renders as a regular table.
+
+### China Map Charts (Using AMap Service)
+
+25. `generate_district_map`: Generate a **district map** — show administrative divisions and data distribution in China.
+26. `generate_path_map`: Generate a **path map** — display route planning results for POIs in China.
+27. `generate_pin_map`: Generate a **pin map** — show the distribution of POIs in China.
 
 > [!NOTE]
-> The above geographic visualization chart generation tool uses [AMap service](https://lbs.amap.com/) and currently only supports map generation within China.
+> The above China map visualization tools use [AMap service](https://lbs.amap.com/) and currently only support map generation within China.
+
+### 🇰🇷 Korea Map Charts
+
+28. `generate_korea_district_map`: Generate a **Korea district map** — display administrative divisions (si/do, si/gun/gu) and data distribution in South Korea.
+29. `generate_korea_path_map`: Generate a **Korea path map** — display route planning results for POIs in South Korea.
+30. `generate_korea_pin_map`: Generate a **Korea pin map** — show the distribution of POIs in South Korea.
+
+> [!NOTE]
+> Korea map visualization tools use Kakao Maps or Naver Maps API. API keys must be set as environment variables to use these tools.
+
+> [!IMPORTANT]
+> All 6 map tools (3 China + 3 Korea) are **disabled by default** because they require external map services. To enable them, set the `DISABLED_TOOLS` environment variable to override the defaults.
 
 ## 🤖 Usage
 
@@ -79,7 +106,7 @@ To use with `Desktop APP`, such as Claude, VSCode, [Cline](https://cline.bot/mcp
 }
 ```
 
-On Window system:
+On Windows system:
 
 ```json
 {
@@ -145,18 +172,19 @@ Then you can access the server at:
 
 ## 🎮 CLI Options
 
-You can also use the following CLI options when running the MCP server. Command options by run cli with `-h`.
+You can use the following CLI options when running the MCP server. Command options by running cli with `-H`.
 
 ```plain
 MCP Server Chart CLI
 
 Options:
   --transport, -t  Specify the transport protocol: "stdio", "sse", or "streamable" (default: "stdio")
+  --host, -h       Specify the host for SSE or streamable transport (default: "localhost")
   --port, -p       Specify the port for SSE or streamable transport (default: 1122)
   --endpoint, -e   Specify the endpoint for the transport:
                    - For SSE: default is "/sse"
                    - For streamable: default is "/mcp"
-  --help, -h       Show this help message
+  --help, -H       Show this help message
 ```
 
 ## ⚙️ Environment Variables
@@ -165,8 +193,13 @@ Options:
 |----------|:------------|---------|---------|
 | `VIS_REQUEST_SERVER` | Custom chart generation service URL for private deployment | `https://antv-studio.alipay.com/api/gpt-vis` | `https://your-server.com/api/chart` |
 | `SERVICE_ID` | Service identifier for chart generation records | - | `your-service-id-123` |
-| `DISABLED_TOOLS` | Comma-separated list of tool names to disable | - | `generate_fishbone_diagram,generate_mind_map` |
-
+| `DISABLED_TOOLS` | Comma-separated list of tool names to disable | 6 map tools disabled | `generate_fishbone_diagram,generate_mind_map` |
+| `USE_LOCAL_RENDERER` | Enable/disable local chart rendering | `true` | `false` |
+| `OUTPUT_DIR` | Output directory for locally rendered charts | `./output` | `/path/to/output` |
+| `LOCALE` | Interface language setting | `en` | `ko`, `zh`, `en` |
+| `KAKAO_MAP_API_KEY` | Kakao Maps API key (for Korea maps) | - | `your-kakao-api-key` |
+| `NAVER_MAP_CLIENT_ID` | Naver Maps Client ID (for Korea maps) | - | `your-naver-client-id` |
+| `NAVER_MAP_CLIENT_SECRET` | Naver Maps Client Secret (for Korea maps) | - | `your-naver-client-secret` |
 
 ### 📠 Private Deployment
 
@@ -199,7 +232,7 @@ You can use AntV's project [GPT-Vis-SSR](https://github.com/antvis/GPT-Vis/tree/
   - **errorMessage**: `string` When `success = false`, return the error message.
 
 > [!NOTE]
-> The private deployment solution currently does not support geographic visualization chart generation include 3 tools: `geographic-district-map`, `geographic-path-map`, `geographic-pin-map`.
+> The private deployment solution currently does not support 6 geographic visualization tools: `generate_district_map`, `generate_path_map`, `generate_pin_map`, `generate_korea_district_map`, `generate_korea_path_map`, `generate_korea_pin_map`.
 
 ### 🗺️ Generate Records
 
@@ -236,6 +269,10 @@ After updating the MCP Server configuration, you need to restart your AI client 
 
 You can disable specific chart generation tools using the `DISABLED_TOOLS` environment variable. This is useful when certain tools have compatibility issues with your MCP client or when you want to limit the available functionality.
 
+By default, 6 map tools are disabled:
+- `generate_district_map`, `generate_path_map`, `generate_pin_map`
+- `generate_korea_district_map`, `generate_korea_pin_map`, `generate_korea_path_map`
+
 ```json
 {
   "mcpServers": {
@@ -253,7 +290,88 @@ You can disable specific chart generation tools using the `DISABLED_TOOLS` envir
 }
 ```
 
+> [!NOTE]
+> Setting `DISABLED_TOOLS` **overrides** the default disabled list. If you also want to keep the map tools disabled, include them in your list.
+
 **Available tool names for filtering** See the [✨ Features](#-features).
+
+## 🇰🇷 Korea Map Support
+
+Korea map features require a Kakao Maps or Naver Maps API key.
+
+### Kakao Maps API Key
+
+1. Go to [Kakao Developers](https://developers.kakao.com/) and sign in
+2. "My Applications" > "Add Application"
+3. After creating the app, copy the "JavaScript Key" or "REST API Key"
+4. Add to environment variables:
+
+```json
+{
+  "mcpServers": {
+    "mcp-server-chart": {
+      "command": "npx",
+      "args": ["-y", "@antv/mcp-server-chart"],
+      "env": {
+        "KAKAO_MAP_API_KEY": "your-kakao-api-key"
+      }
+    }
+  }
+}
+```
+
+### Naver Maps API Key
+
+1. Go to [Naver Cloud Platform](https://www.ncloud.com/) and sign in
+2. "AI·NAVER API" > "Register Application"
+3. Select and register "Maps" service
+4. Copy Client ID and Client Secret
+5. Add to environment variables:
+
+```json
+{
+  "mcpServers": {
+    "mcp-server-chart": {
+      "command": "npx",
+      "args": ["-y", "@antv/mcp-server-chart"],
+      "env": {
+        "NAVER_MAP_CLIENT_ID": "your-naver-client-id",
+        "NAVER_MAP_CLIENT_SECRET": "your-naver-client-secret"
+      }
+    }
+  }
+}
+```
+
+### Korea Map Usage Examples
+
+```javascript
+// Seoul major attractions map
+{
+  "title": "Seoul Major Attractions",
+  "data": ["Seoul Namsan Tower", "Seoul Gyeongbokgung", "Seoul Myeongdong Cathedral", "Seoul Cheonggyecheon"],
+  "mapProvider": "kakao"
+}
+
+// South Korea population distribution by province
+{
+  "title": "South Korea Population Distribution",
+  "data": {
+    "name": "South Korea",
+    "showAllSubdistricts": true,
+    "dataLabel": "Population",
+    "dataType": "number",
+    "dataValueUnit": "10K",
+    "colors": ["#4ECDC4"],
+    "subdistricts": [
+      {"name": "Seoul", "dataValue": "967"},
+      {"name": "Busan", "dataValue": "339"},
+      {"name": "Gyeonggi-do", "dataValue": "1356"}
+    ]
+  },
+  "mapProvider": "kakao"
+}
+```
 
 ## 🔨 Development
 
@@ -269,10 +387,16 @@ Build the server:
 npm run build
 ```
 
-Start the MCP server:
+Start the MCP server with Inspector:
 
 ```bash
 npm run start
+```
+
+Run tests:
+
+```bash
+npm run test
 ```
 
 Start the MCP server with SSE transport:
@@ -286,7 +410,6 @@ Start the MCP server with Streamable transport:
 ```bash
 node build/index.js -t streamable
 ```
-
 
 ## 📄 License
 

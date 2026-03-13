@@ -216,6 +216,26 @@ async function renderSpreadsheet(options: Record<string, any>) {
 }
 
 /**
+ * Recursively assign unique `id` fields to tree nodes for G6 v5 compatibility.
+ * G6 v5 requires every node datum to have an `id` property.
+ */
+function assignNodeIds(
+  node: Record<string, any>,
+  prefix = "node",
+  index = 0,
+): Record<string, any> {
+  const id = node.id || `${prefix}-${index}`;
+  const result: Record<string, any> = { ...node, id };
+  if (Array.isArray(node.children)) {
+    result.children = node.children.map(
+      (child: Record<string, any>, i: number) =>
+        assignNodeIds(child, `${id}`, i),
+    );
+  }
+  return result;
+}
+
+/**
  * Custom renderers for chart types not supported by gpt-vis-ssr.
  */
 const CUSTOM_RENDERERS: Record<
@@ -251,10 +271,16 @@ export async function generateLocalChart(
     let vis: { toBuffer: () => Buffer; destroy: () => void };
 
     if (GPT_VIS_SUPPORTED_TYPES.has(type)) {
+      // For organization charts, ensure all nodes have `id` fields (required by G6 v5)
+      const renderOptions =
+        type === "organization-chart" && options.data
+          ? { ...options, data: assignNodeIds(options.data) }
+          : options;
+
       // Use gpt-vis-ssr for supported types
       vis = await render({
         type,
-        ...options,
+        ...renderOptions,
       } as any);
     } else if (CUSTOM_RENDERERS[type]) {
       // Use custom renderer for waterfall, spreadsheet, etc.

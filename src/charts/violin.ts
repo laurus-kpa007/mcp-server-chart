@@ -16,7 +16,7 @@ import {
 const data = z.object({
   category: z
     .string()
-    .describe("Category of the data point, such as '分类一'."),
+    .describe("Category of the data point, such as 'Category A'."),
   value: z.number().describe("Value of the data point, such as 10."),
   group: z
     .string()
