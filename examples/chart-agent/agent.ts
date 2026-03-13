@@ -24,7 +24,7 @@ const __dirname = path.dirname(__filename);
 // ─── Configuration ───────────────────────────────────────────────
 const LM_STUDIO_URL = process.argv.includes("--lm-url")
   ? process.argv[process.argv.indexOf("--lm-url") + 1]
-  : "http://localhost:1234/v1";
+  : "http://70.30.171.45:1234/v1";
 
 const LM_MODEL = process.argv.includes("--model")
   ? process.argv[process.argv.indexOf("--model") + 1]
