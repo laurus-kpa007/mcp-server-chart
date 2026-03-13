@@ -40,7 +40,7 @@ const PRESETS = [
   {
     name: "꺾은선 차트 - 월별 매출",
     prompt:
-      '"2024년 월별 매출" 제목으로 꺾은선 차트를 생성해줘. 데이터: 1월=120, 2월=150, 3월=180, 4월=210, 5월=250, 6월=230, 7월=280, 8월=310, 9월=290, 10월=320, 11월=350, 12월=400',
+      '"2026년 월별 매출" 제목으로 꺾은선 차트를 생성해줘. 데이터: 1월=120, 2월=150, 3월=180, 4월=210, 5월=250, 6월=230, 7월=280, 8월=310, 9월=290, 10월=320, 11월=350, 12월=400',
   },
   {
     name: "막대 차트 - 프로그래밍 언어",
@@ -50,7 +50,7 @@ const PRESETS = [
   {
     name: "원형 차트 - 예산 배분",
     prompt:
-      '"2024년 예산 배분" 제목으로 원형 차트를 생성해줘. 카테고리: 마케팅=30, 개발=40, 운영=15, 인사=10, 기타=5',
+      '"2026년 예산 배분" 제목으로 원형 차트를 생성해줘. 카테고리: 마케팅=30, 개발=40, 운영=15, 인사=10, 기타=5',
   },
   {
     name: "영역 차트 - 웹사이트 트래픽",
@@ -80,7 +80,7 @@ const PRESETS = [
   {
     name: "이중축 차트 - 매출 vs 이익률",
     prompt:
-      '"매출 대비 이익률" 제목으로 이중축 차트를 생성해줘. 카테고리: 2020,2021,2022,2023,2024. 컬럼: 매출 100,150,200,280,350 (제목: "매출(억)"). 라인: 이익률 0.08,0.10,0.12,0.15,0.18 (제목: "이익률")',
+      '"매출 대비 이익률" 제목으로 이중축 차트를 생성해줘. 카테고리: 2020,2021,2022,2023,2026. 컬럼: 매출 100,150,200,280,350 (제목: "매출(억)"). 라인: 이익률 0.08,0.10,0.12,0.15,0.18 (제목: "이익률")',
   },
   {
     name: "워터폴 차트 - 손익 분석",
@@ -95,7 +95,7 @@ const PRESETS = [
   {
     name: "워드 클라우드 - 기술 키워드",
     prompt:
-      '"2024 기술 트렌드" 제목으로 워드 클라우드를 생성해줘. 단어: AI=100, LLM=90, MCP=80, Kubernetes=70, Rust=65, WebAssembly=60, Edge=55, GraphQL=50, Serverless=45, Blockchain=40, IoT=35, 5G=30',
+      '"2026 기술 트렌드" 제목으로 워드 클라우드를 생성해줘. 단어: AI=100, LLM=90, MCP=80, Kubernetes=70, Rust=65, WebAssembly=60, Edge=55, GraphQL=50, Serverless=45, Blockchain=40, IoT=35, 5G=30',
   },
   {
     name: "마인드맵 - 프로젝트 구조",
@@ -390,7 +390,7 @@ async function directChartCall(presetIndex: number): Promise<void> {
           { time: "Nov", value: 350 },
           { time: "Dec", value: 400 },
         ],
-        title: "2024년 월별 매출",
+        title: "2026년 월별 매출",
       },
     },
     1: {
@@ -417,7 +417,7 @@ async function directChartCall(presetIndex: number): Promise<void> {
           { category: "인사", value: 10 },
           { category: "기타", value: 5 },
         ],
-        title: "2024년 예산 배분",
+        title: "2026년 예산 배분",
       },
     },
     3: {
@@ -495,7 +495,7 @@ async function directChartCall(presetIndex: number): Promise<void> {
     8: {
       tool: "generate_dual_axes_chart",
       args: {
-        categories: ["2020", "2021", "2022", "2023", "2024"],
+        categories: ["2020", "2021", "2022", "2023", "2026"],
         series: [
           {
             type: "column",
@@ -556,7 +556,7 @@ async function directChartCall(presetIndex: number): Promise<void> {
           { text: "IoT", value: 35 },
           { text: "5G", value: 30 },
         ],
-        title: "2024 기술 트렌드",
+        title: "2026 기술 트렌드",
       },
     },
     12: {
